@@ -1,8 +1,9 @@
 const Modelo = require('./modeloTabelaFornecedor');
+const NaoEncontrado = require('../../Error/NaoEncontrado');
 
 module.exports = {
     listar (){
-        return Modelo.findAll()
+        return Modelo.findAll({raw : true})
     },
     inserir(fornecedor){
         return Modelo.create(fornecedor);
@@ -10,7 +11,7 @@ module.exports = {
     async findById(id){
         const encontrado = await Modelo.findOne({ where : {id:id}});
         if(!encontrado){
-            throw new Error('Fornecedor não encontrado');    
+            throw new NaoEncontrado();    
         }
         return encontrado;
     },
